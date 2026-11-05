@@ -27,7 +27,7 @@ def mix(gans, num_real, num_synth):
         return mixed_data_loader
 
 
-def train_and_test(gans, trial, num_real, num_synth, fin, num_epoch=200):
+def train_and_test(gans, trial, num_real, num_synth, fin, num_epoch=30):
     name = "./classifier_results/trial{}/{}-{}".format(trial, num_real, num_synth)
     data_loader = mix(gans, num_real, num_synth)
     c = classifier.SimpleClassifier()  # select from {SimpleClassifier, DeepClassifier}
@@ -36,11 +36,11 @@ def train_and_test(gans, trial, num_real, num_synth, fin, num_epoch=200):
 
 
 def main():
-    gans = [gan.GAN(None, None, alpha = 4) for _ in range(10)]
-    trial = 5
+    gans = [gan.GAN(None, None, alpha=1) for _ in range(10)]
+    trial = 1
     for i in range(len(gans)):
         ID = '{}.{}'.format(trial, i)
-        utils.load_model(gans[i], trial, ID, 2000)
+        utils.load_model(gans[i], trial, ID, 10)
     filename = "./classifier_results/trial{}/accuracies".format(trial)
     utils.make_folder(filename)
     fin = open(filename, "a")

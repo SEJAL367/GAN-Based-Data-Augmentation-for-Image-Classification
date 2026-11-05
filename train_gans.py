@@ -8,7 +8,7 @@ import utils
 
 
 def train_gans(lst_saved_models, dataloaders, trial, alpha, num_gans=10, num_epochs=2000, 
-                printProgress=True, updateEvery=50):
+                printProgress=True, updateEvery=1):
     """
     lst_saved_models: List of Tuples(ID, num_epoch)
     where ID is {trial}.{numGAN} and num_epoch is the epoch of the model that you want to restore
@@ -58,7 +58,7 @@ def repeatTrain(dataloaders, trial, epoch_len, alpha,  end, start=0):
                 lst_saved_models[i] = (ID, prev_stop)
         
         train_gans(lst_saved_models, dataloaders, num_gans=10, num_epochs=next_stop, trial=trial, 
-                printProgress=True, updateEvery=50, alpha = alpha)
+                printProgress=True, updateEvery=1, alpha = alpha)
         prev_stop = next_stop   
         next_stop = prev_stop + epoch_len
         print("Done with {} epochs".format(prev_stop))
@@ -70,7 +70,7 @@ def main(train_size, model_size, trial):
                                                         image_path='./mnist/train-images-idx3-ubyte',
                                                         label_path='./mnist/train-labels-idx1-ubyte')
     
-    repeatTrain(dataloaders, trial = trial, epoch_len = 500, end = 2000, alpha = model_size)
+    repeatTrain(dataloaders, trial = trial, epoch_len = 10, end = 10, alpha = model_size)
     """
     lst_saved_models = [None for _ in range(num_gans)]
     
@@ -84,6 +84,5 @@ def main(train_size, model_size, trial):
     
     """
 
-
 if __name__ == "__main__":
-    main()
+    main(train_size=1000, model_size=1, trial=1)
